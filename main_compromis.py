@@ -5,29 +5,29 @@ import matplotlib.pyplot as plt
 
 set_1 = {i+1: chr(ord('a') + i) for i in range(26)}
 set_1[0] = ' '
-x, Fe = sf.read('./sounds/mess_difficile.wav')
-y, Fe = sf.read('./sounds/mess.wav')
-w, Fe = sf.read('./sounds/symboleU2.wav')
+x, Fe = sf.read('../sounds/mess_difficile.wav')
+y, Fe = sf.read('../sounds/mess.wav')
+w, Fe = sf.read('../sounds/symboleA2.wav')
 
 
 
 def decode_padding(x,Fe):
-    seuil = 25
+    seuil = 17
     Nfft = 8000
-    #x = x*np.hanning(len(x))
+    x = x*np.hanning(len(x))
     u = np.fft.fft(x,Nfft)
     #show_TF(u)
     taille_echantillon = len(u)
-    index = np.argmax(np.log10(abs(u[501:527]))) + 501
+    index = np.argmax(abs(u[501:527])) + 501
     frequence_estimee = index * Fe / taille_echantillon
     print(abs(u[index]))
-    if abs(u[index]) > seuil:
+    if abs(u[index]) >seuil:
         return frequence_estimee
     return 500
     
 
 def show_TF(u):
-    plt.stem(abs(u[501:527]))
+    plt.stem(abs(u))
     plt.show()
 
 def show(x,Fe):
@@ -57,10 +57,11 @@ def decode_letter(x,Fe):
 
 def decode(x,Fe):
     set = []
+    set.append(x[0:2000])
     n = len(x)
     nb_car = int(n//2500)
-    for k in range(nb_car):
-        set.append(x[k*2500:k*2500+2000])
+    for k in range(1,nb_car):
+        set.append(x[k*2500-120:k*2500+2500])
     m = len(set)
     str = ''
     for i in range(m):
