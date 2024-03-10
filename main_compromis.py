@@ -20,8 +20,8 @@ def decode_padding(x,Fe):
     taille_echantillon = len(u)
     index = np.argmax(abs(u[int(501*Nfft//Fe):int(527*Nfft//Fe)])) + 501*Nfft//Fe
     frequence_estimee = index * Fe / taille_echantillon
-    print(f"frequence estimee: {frequence_estimee}")
-    print(abs(u[index]))
+    #print(f"frequence estimee: {frequence_estimee}")
+    #print(abs(u[index]))
     if abs(u[index]) >seuil:
         return frequence_estimee
     return 500
@@ -46,13 +46,13 @@ def show(x,Fe):
 
 def decode_letter(x,Fe):
     key = round(decode_padding(x,Fe) - 500)
-    print(key)
+    #print(key)
     keys = set_1.keys()
     if key not in keys:
-        print('space')
+        #print('space')
         return ' '
     else:
-        print(set_1[key])
+        #print(set_1[key])
         return set_1[key]
 
 
